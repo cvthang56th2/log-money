@@ -5,9 +5,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import tw from '@lm/configs/tailwindcss';
 import {ScrollViewProvider} from '@lm/contexts/ScrollViewContext';
 
-import Header from '../layout/Header';
-import Footer from '../layout/Footer';
-
 type TProps = {
   children: ReactNode | string | JSX.Element | JSX.Element[];
 };
@@ -27,9 +24,7 @@ export default function Screen(props: TProps) {
       })}>
       <ScrollViewProvider scrollViewRef={scrollViewRef}>
         <ScrollView style={tw`grow`} ref={scrollViewRef}>
-          <Header />
           {props.children}
-          <Footer />
         </ScrollView>
       </ScrollViewProvider>
     </View>
