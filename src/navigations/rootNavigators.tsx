@@ -31,14 +31,14 @@ export default function RootNavigator() {
           name="TabHome"
           component={HomeStackNavigators}
           options={{
-            tabBarLabel: 'Trang chủ',
+            tabBarLabel: 'Home',
           }}
         />
         <Screen
           name="TabProfile"
           component={Profile}
           options={{
-            tabBarLabel: 'Trang cá nhân',
+            tabBarLabel: 'Profile',
           }}
         />
       </Navigator>

@@ -7,6 +7,7 @@ export const theme = {
     colors: COLORS.light,
     fontFamily: FONTS,
     borderWidth: {
+      1: '1px',
     },
   },
   plugins: [
