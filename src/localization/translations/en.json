@@ -1,2 +1,26 @@
 {
+  "home": {
+    "title": "MONEY LOGGER"
+  },
+  "tab": {
+    "home": "Home",
+    "profile": "Profile"
+  },
+  "logMoneyForm": {
+    "inputType": {
+      "label": "Input Type",
+      "options": {
+        "in": "In",
+        "out": "Out"
+      }
+    },
+    "total": {
+      "label": "Total"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Description"
+    },
+    "submit": "Submit"
+  }
 }

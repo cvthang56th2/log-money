@@ -4,10 +4,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import HomeStackNavigators from './homeStackNavigator';
+import { useTranslation } from 'react-i18next';
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
 export default function RootNavigator() {
+  const { t } = useTranslation();
+
   return (
     <NavigationContainer fallback={<Text>Loading...</Text>}>
       <Navigator
@@ -31,14 +34,14 @@ export default function RootNavigator() {
           name="TabHome"
           component={HomeStackNavigators}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: t('tab.home'),
           }}
         />
         <Screen
           name="TabProfile"
           component={Profile}
           options={{
-            tabBarLabel: 'Profile',
+            tabBarLabel: t('tab.profile'),
           }}
         />
       </Navigator>

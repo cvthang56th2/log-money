@@ -1,28 +1,55 @@
 import {FC, useState} from 'react';
 import {Pressable, Text, TextInput, View} from 'react-native';
+import RadioGroup from 'react-native-radio-buttons-group';
 
 import Screen from '@lm/components/Screen';
 import tw from '@lm/configs/tailwindcss';
+import {useTranslation} from 'react-i18next';
 
 interface IHomePageProps {}
 
 const HomePage: FC<IHomePageProps> = () => {
+  const {t} = useTranslation();
   const [formData, setFormData] = useState({
     total: 0,
-    type: 'in',
-    subType: '',
+    inputType: 'in',
     description: '',
   });
+  const radioButtons = [
+    {
+      id: 'in',
+      label: t('logMoneyForm.inputType.options.in'),
+      value: 'in',
+      color: 'white',
+    },
+    {
+      id: 'out',
+      label: t('logMoneyForm.inputType.options.out'),
+      value: 'out',
+      color: 'white',
+    },
+  ];
+
   return (
     <Screen>
-      <View style={tw`p-4`}>
-        <Text style={tw`text-white text-center font-bold uppercase text-30px`}>
-          MONEY LOGGER
+      <View>
+        <Text
+          style={tw`mt-10 text-white text-center font-bold uppercase text-30px`}>
+          {t('home.title')}
         </Text>
-        <View style={tw`py-6`}>
-          <View>
+        <View style={tw`px-10 mt-10`}>
+          <View style={tw`-mx-2`}>
+            <RadioGroup
+              radioButtons={radioButtons}
+              onPress={val => setFormData(prev => ({...prev, inputType: val}))}
+              labelStyle={tw`text-white font-bold`}
+              containerStyle={tw`flex flex-row `}
+              selectedId={formData.inputType}
+            />
+          </View>
+          <View style={tw`mt-6`}>
             <Text style={tw`text-white font-semibold text-18px mb-2`}>
-              Total
+              {t('logMoneyForm.total.label')}
             </Text>
             <TextInput
               onChangeText={val =>
@@ -34,49 +61,28 @@ const HomePage: FC<IHomePageProps> = () => {
               value={String(formData.total)}
               keyboardType="numeric"
               placeholder="Total"
-              style={tw`border-1 border-white rounded-md px-2 py-1 text-20px text-white`}
+              style={tw`border-1 border-white rounded-md p-4 mt-1 text-20px text-white`}
             />
           </View>
-          <View style={tw`mt-5`}>
+          <View style={tw`mt-6`}>
             <Text style={tw`text-white font-semibold text-18px mb-2`}>
-              In / Out
-            </Text>
-            <TextInput
-              onChangeText={val => setFormData(prev => ({...prev, type: val}))}
-              value={formData.type}
-              placeholder="In / Out"
-              style={tw`border-1 border-white rounded-md px-2 py-1 text-20px text-white`}
-            />
-          </View>
-          <View style={tw`mt-5`}>
-            <Text style={tw`text-white font-semibold text-18px mb-2`}>
-              For what?
-            </Text>
-            <TextInput
-              onChangeText={val =>
-                setFormData(prev => ({...prev, subType: val}))
-              }
-              value={formData.subType}
-              placeholder="For what?"
-              style={tw`border-1 border-white rounded-md px-2 py-1 text-20px text-white`}
-            />
-          </View>
-          <View style={tw`mt-5`}>
-            <Text style={tw`text-white font-semibold text-18px mb-2`}>
-              Description
+              {t('logMoneyForm.description.label')}
             </Text>
             <TextInput
               onChangeText={val =>
                 setFormData(prev => ({...prev, description: val}))
               }
+              multiline
               value={formData.description}
-              placeholder="Description"
-              style={tw`border-1 border-white rounded-md px-2 py-1 text-20px text-white`}
+              placeholder={t('logMoneyForm.description.placeholder')}
+              style={tw`border-1 border-white rounded-md p-4 mt-1 text-20px text-white`}
             />
           </View>
-          <View style={tw`flex flex-row justify-center mt-6`}>
+          <View style={tw`flex flex-row justify-center mt-12`}>
             <Pressable style={tw`bg-white px-10 py-2 rounded-md`}>
-              <Text style={tw`text-20px font-bold`}>Submit</Text>
+              <Text style={tw`text-20px font-bold`}>
+                {t('logMoneyForm.submit')}
+              </Text>
             </Pressable>
           </View>
         </View>

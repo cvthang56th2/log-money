@@ -1,0 +1,26 @@
+{
+  "home": {
+    "title": "Ví của tui"
+  },
+  "tab": {
+    "home": "Trang chủ",
+    "profile": "Trang cá nhân"
+  },
+  "logMoneyForm": {
+    "inputType": {
+      "label": "Vào hay Ra?",
+      "options": {
+        "in": "Vào",
+        "out": "Ra"
+      }
+    },
+    "total": {
+      "label": "Số tiền"
+    },
+    "description": {
+      "label": "Mô tả",
+      "placeholder": "Mô tả"
+    },
+    "submit": "Gửi"
+  }
+}
