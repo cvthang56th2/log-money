@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import {Pressable, Text, TextInput, View} from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
+import SelectDropdown from 'react-native-select-dropdown';
 
 import Screen from '@lm/components/Screen';
 import tw from '@lm/configs/tailwindcss';
@@ -13,6 +14,7 @@ const HomePage: FC<IHomePageProps> = () => {
   const [formData, setFormData] = useState({
     total: 0,
     inputType: 'in',
+    moneyType: 'cash',
     description: '',
   });
   const radioButtons = [
@@ -29,6 +31,11 @@ const HomePage: FC<IHomePageProps> = () => {
       color: 'white',
     },
   ];
+  const moneyTypes = [
+    {label: 'Cash', value: 'cash'},
+    {label: 'Bank', value: 'bank'},
+    {label: 'MOMO', value: 'momo'},
+  ];
 
   return (
     <Screen>
@@ -38,14 +45,42 @@ const HomePage: FC<IHomePageProps> = () => {
           {t('home.title')}
         </Text>
         <View style={tw`px-10 mt-10`}>
-          <View style={tw`-mx-2`}>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={val => setFormData(prev => ({...prev, inputType: val}))}
-              labelStyle={tw`text-white font-bold`}
-              containerStyle={tw`flex flex-row `}
-              selectedId={formData.inputType}
-            />
+          <View style={tw`flex flex-row justify-between items-center`}>
+            <View style={tw`w-2/3`}>
+              <View style={tw`-ml-2`}>
+                <RadioGroup
+                  radioButtons={radioButtons}
+                  onPress={val =>
+                    setFormData(prev => ({...prev, inputType: val}))
+                  }
+                  labelStyle={tw`text-white font-bold`}
+                  containerStyle={tw`flex flex-row w-full`}
+                  selectedId={formData.inputType}
+                />
+              </View>
+            </View>
+            <View style={tw`w-1/3`}>
+              <SelectDropdown
+                data={moneyTypes}
+                defaultValue={moneyTypes.find(
+                  item => item.value === formData.moneyType,
+                )}
+                onSelect={selectedItem => {
+                  setFormData(prev => ({
+                    ...prev,
+                    moneyType: selectedItem.value,
+                  }));
+                }}
+                buttonTextAfterSelection={selectedItem => {
+                  return selectedItem.label;
+                }}
+                rowTextForSelection={item => {
+                  return item.label;
+                }}
+                buttonStyle={tw`border-1 border-white rounded-md mt-1 text-20px bg-transparent w-full h-8`}
+                buttonTextStyle={tw`text-white`}
+              />
+            </View>
           </View>
           <View style={tw`mt-6`}>
             <Text style={tw`text-white font-semibold text-18px mb-2`}>
