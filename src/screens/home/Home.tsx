@@ -1,4 +1,5 @@
-import {FC, useState} from 'react';
+import TransactionServices from '@lm/firebase/transaction/transaction.services';
+import {FC, createRef, useState} from 'react';
 import {Pressable, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import RadioGroup from 'react-native-radio-buttons-group';
@@ -6,19 +7,27 @@ import SelectDropdown from 'react-native-select-dropdown';
 
 import Screen from '@lm/components/Screen';
 import tw from '@lm/configs/tailwindcss';
+import {TransactionForm} from '@lm/types/transaction';
+import {toLowerCaseNonAccentVietnamese} from '@lm/utils';
 import {useTranslation} from 'react-i18next';
+import {showMessage} from 'react-native-flash-message';
 
 interface IHomePageProps {}
 
+const defaultFormData = {
+  total: 0,
+  inputType: 'in',
+  moneyType: 'cash',
+  description: '',
+};
+
 const HomePage: FC<IHomePageProps> = () => {
   const {t} = useTranslation();
-  const [formData, setFormData] = useState({
-    total: 0,
-    inputType: 'in',
-    moneyType: 'cash',
-    description: '',
-  });
+  const [formData, setFormData] = useState<TransactionForm>(
+    JSON.parse(JSON.stringify(defaultFormData)),
+  );
   const [isFocusingDescription, setIsFocusingDescription] = useState(false);
+  const textInputRef = createRef<TextInput>();
 
   const radioButtons = [
     {
@@ -40,17 +49,23 @@ const HomePage: FC<IHomePageProps> = () => {
     {label: 'MOMO', value: 'momo'},
   ];
 
-  const descriptionSuggestions = new Array(10).fill(0).map((_, index) => ({
-    id: String(index),
-    title: `Description ${index + 1}`,
-  }));
+  const descriptionSuggestions = [
+    {id: '1', title: 'Mua sắm'},
+    {id: '2', title: 'Ăn uống'},
+    {id: '3', title: 'Đi chợ'},
+    {id: '4', title: 'Đi chơi'},
+    {id: '5', title: 'Đi ăn'},
+    {id: '6', title: 'Cho mượn'},
+    {id: '7', title: 'Lương'},
+  ];
 
   const filterData = (query: string) => {
     if (!isFocusingDescription || query === '') {
       return [];
     }
+    const formattedQuery = toLowerCaseNonAccentVietnamese(query);
     const result = descriptionSuggestions.filter(item =>
-      item.title.toLowerCase().includes(query.toLowerCase()),
+      toLowerCaseNonAccentVietnamese(item.title).includes(formattedQuery),
     );
     if (result.length === 1 && result[0].title === query) {
       return [];
@@ -58,8 +73,37 @@ const HomePage: FC<IHomePageProps> = () => {
     return result;
   };
 
-  const submit = () => {
-    console.log(formData);
+  const submit = async () => {
+    try {
+      // TODO: use form validation library
+      const {total, description} = formData;
+      if (total <= 0 || description === '') {
+        showMessage({
+          message: t('logMoneyForm.formInvalid', {
+            message: [
+              total <= 0 ? t('logMoneyForm.total.invalid') : '',
+              description === '' ? t('logMoneyForm.description.invalid') : '',
+            ]
+              .filter(Boolean)
+              .join(', '),
+          }),
+          type: 'danger',
+        });
+        return;
+      }
+      await TransactionServices.createTransaction(formData);
+      setFormData(JSON.parse(JSON.stringify(defaultFormData)));
+      showMessage({
+        message: t('logMoneyForm.submitSuccess'),
+        type: 'success',
+      });
+    } catch (error) {
+      console.log('error', error);
+      showMessage({
+        message: t('logMoneyForm.submitFailed'),
+        type: 'danger',
+      });
+    }
   };
 
   return (
@@ -143,9 +187,10 @@ const HomePage: FC<IHomePageProps> = () => {
                 keyExtractor: item => item.id,
                 renderItem: ({item}) => (
                   <TouchableOpacity
-                    onPress={() =>
-                      setFormData(prev => ({...prev, description: item.title}))
-                    }>
+                    onPress={() => {
+                      setFormData(prev => ({...prev, description: item.title}));
+                      textInputRef.current?.blur();
+                    }}>
                     <Text style={tw`p-2 border-b-gray-400`}>{item.title}</Text>
                   </TouchableOpacity>
                 ),
@@ -153,6 +198,7 @@ const HomePage: FC<IHomePageProps> = () => {
               inputContainerStyle={tw`border-0`}
               renderTextInput={() => (
                 <TextInput
+                  ref={textInputRef}
                   style={tw`border-1 border-white rounded-md p-4 mt-1 text-20px text-white`}
                   placeholder={t('logMoneyForm.description.placeholder')}
                   value={formData.description}

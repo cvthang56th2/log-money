@@ -15,12 +15,17 @@
       }
     },
     "total": {
-      "label": "Số tiền"
+      "label": "Số tiền",
+      "invalid": "Số tiền không hợp lệ"
     },
     "description": {
       "label": "Mô tả",
-      "placeholder": "Mô tả"
+      "placeholder": "Mô tả",
+      "invalid": "Mô tả không hợp lệ"
     },
-    "submit": "Gửi"
+    "submit": "Nhập",
+    "formInvalid": "Dữ liệu không hợp lệ: {{message}}",
+    "submitSuccess": "Nhập thành công",
+    "submitFailed": "Nhập thất bại"
   }
 }

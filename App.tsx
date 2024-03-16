@@ -4,15 +4,16 @@
  *
  * @format
  */
+import tw from '@lm/configs/tailwindcss';
+import '@lm/localization/i18n';
+import RootNavigator from '@lm/navigations/rootNavigators';
 import React from 'react';
+import {StatusBar} from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import {StatusBar} from 'react-native';
-import tw from '@lm/configs/tailwindcss';
-import RootNavigator from '@lm/navigations/rootNavigators';
-import '@lm/localization/i18n';
 
 function App(): React.JSX.Element {
   return (
@@ -25,6 +26,7 @@ function App(): React.JSX.Element {
         barStyle={'light-content'}
       />
       <RootNavigator />
+      <FlashMessage position="top" />
     </SafeAreaProvider>
   );
 }

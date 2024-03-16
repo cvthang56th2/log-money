@@ -15,12 +15,17 @@
       }
     },
     "total": {
-      "label": "Total"
+      "label": "Total",
+      "invalid": "Total is invalid"
     },
     "description": {
       "label": "Description",
-      "placeholder": "Description"
+      "placeholder": "Description",
+      "invalid": "Description is invalid"
     },
-    "submit": "Submit"
+    "submit": "Submit",
+    "formInvalid": "Form Invalid: {{message}}",
+    "submitSuccess": "Submit Success",
+    "submitFailed": "Submit Failed"
   }
 }
