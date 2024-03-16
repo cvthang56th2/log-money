@@ -30,7 +30,7 @@
   },
   "transactionList": {
     "title": "Danh sách giao dịch",
-    "noTransaction": "Không có giao dịch nào",
+    "noData": "Không có giao dịch nào",
     "columns": {
       "inputType": "Vào/Ra",
       "moneyType": "Loại tiền",

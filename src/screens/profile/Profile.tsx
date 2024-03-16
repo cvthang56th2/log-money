@@ -56,82 +56,28 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
                 t('transactionList.columns.createdAt'),
               ]}
               style={tw`bg-gray-800`}
-              textStyle={tw`text-white text-center`}
+              textStyle={tw`text-white text-center py-1`}
             />
-            <Rows
-              data={transactions.map(transaction => [
-                transaction.inputType === 'in'
-                  ? t('logMoneyForm.inputType.options.in')
-                  : t('logMoneyForm.inputType.options.out'),
-                transaction.moneyType,
-                numberWithCommas(transaction.total),
-                transaction.description,
-                formatDate(transaction.createdAt, 'HH:mm DD/MM/YYYY'),
-              ])}
-              textStyle={tw`text-white text-center`}
-            />
+            {transactions.length ? (
+              <Rows
+                data={transactions.map(transaction => [
+                  transaction.inputType === 'in'
+                    ? t('logMoneyForm.inputType.options.in')
+                    : t('logMoneyForm.inputType.options.out'),
+                  transaction.moneyType,
+                  numberWithCommas(transaction.total),
+                  transaction.description,
+                  formatDate(transaction.createdAt, 'HH:mm DD/MM/YYYY'),
+                ])}
+                textStyle={tw`text-white text-center p-1`}
+              />
+            ) : (
+              <Row
+                data={[t('transactionList.noData')]}
+                textStyle={tw`text-white text-center py-1`}
+              />
+            )}
           </Table>
-          {/* <View
-            style={tw`flex-row justify-between border-b-white border-b-1 py-1`}>
-            <View style={tw`w-200px`}>
-              <Text style={tw`text-white font-semibold`}>
-                {t('transactionList.columns.inputType')}
-              </Text>
-            </View>
-            <View style={tw`w-200px`}>
-              <Text style={tw`text-white font-semibold`}>
-                {t('transactionList.columns.moneyType')}
-              </Text>
-            </View>
-            <View style={tw`w-200px`}>
-              <Text style={tw`text-white font-semibold`}>
-                {t('transactionList.columns.total')}
-              </Text>
-            </View>
-            <View style={tw`w-200px`}>
-              <Text style={tw`text-white font-semibold`}>
-                {t('transactionList.columns.description')}
-              </Text>
-            </View>
-            <View style={tw`w-200px`}>
-              <Text style={tw`text-white font-semibold`}>
-                {t('transactionList.columns.createdAt')}
-              </Text>
-            </View>
-          </View>
-          {transactions.length ? (
-            transactions.map(transaction => (
-              <View
-                key={transaction.id}
-                style={tw`flex-row justify-between border-b-white border-b-1 py-1`}>
-                <View style={tw`w-200px`}>
-                  <Text style={tw`text-white`}>
-                    {transaction.inputType === 'in'
-                      ? t('logMoneyForm.inputType.options.in')
-                      : t('logMoneyForm.inputType.options.in')}
-                  </Text>
-                </View>
-                <View style={tw`w-200px`}>
-                  <Text style={tw`text-white`}>{transaction.moneyType}</Text>
-                </View>
-                <View style={tw`w-200px`}>
-                  <Text style={tw`text-white`}>{transaction.total}</Text>
-                </View>
-                <View style={tw`w-200px`}>
-                  <Text style={tw`text-white`}>
-                    {transaction.description}
-                  </Text>
-                </View>
-                <View style={tw`w-200px`}>
-                  <Text style={tw`text-white`}>
-                    {formatDate(transaction.createdAt, 'HH:mm DD/MM/YYYY')}
-                  </Text>
-                </View>
-              </View>
-            ))
-          ) : (
-            <Text style={tw`text-white`}>{t('transactionList.noData')}</Text>
-          )} */}
         </View>
       </View>
     </Screen>
