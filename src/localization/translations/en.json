@@ -37,6 +37,13 @@
       "total": "Total",
       "description": "Description",
       "createdAt": "Created At"
+    },
+    "remove": {
+      "label": "Remove",
+      "confirmTitle": "Remove Transaction",
+      "confirmMessage": "Are you sure to remove this transaction?",
+      "success": "Remove Success",
+      "failed": "Remove Failed"
     }
   }
 }

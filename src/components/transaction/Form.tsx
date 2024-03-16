@@ -147,13 +147,14 @@ const TransactionForm: FC<TransactionFormProps> = ({
             keyboardShouldPersistTaps: 'always',
             keyExtractor: item => item.id,
             renderItem: ({item}) => (
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
+                  // {/* TODO: not worked in real device */}
                   setFormData(prev => ({...prev, description: item.title}));
                   textInputRef.current?.blur();
                 }}>
                 <Text style={tw`p-2 border-b-gray-400`}>{item.title}</Text>
-              </TouchableOpacity>
+              </Pressable>
             ),
           }}
           inputContainerStyle={tw`border-0`}

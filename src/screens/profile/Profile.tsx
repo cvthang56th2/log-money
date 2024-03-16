@@ -1,5 +1,5 @@
 import {FC, useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 
 import Screen from '@lm/components/Screen';
 import tw from '@lm/configs/tailwindcss';
@@ -8,6 +8,7 @@ import {Transaction} from '@lm/types/transaction';
 import {formatDate, numberWithCommas} from '@lm/utils';
 import {useTranslation} from 'react-i18next';
 import {Row, Rows, Table} from 'react-native-table-component';
+import {showMessage} from 'react-native-flash-message';
 
 interface IProfileProps {
   navigation: any;
@@ -26,6 +27,36 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
       updatedAt: new Date().toISOString(),
     })),
   );
+
+  const removeTransaction = (id: string) => {
+    Alert.alert(
+      t('transactionList.remove.confirmTitle'),
+      t('transactionList.remove.confirmMessage'),
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('common.confirm'),
+          onPress: async () => {
+            try {
+              await TransactionServices.deleteTransaction(id);
+              showMessage({
+                message: t('transactionList.remove.success'),
+                type: 'success',
+              });
+            } catch (error) {
+              showMessage({
+                message: t('transactionList.remove.failed'),
+                type: 'danger',
+              });
+            }
+          },
+        },
+      ],
+    );
+  };
 
   useEffect(() => {
     TransactionServices.getTransactionsSnapshot((snapshot: Transaction[]) => {
@@ -54,6 +85,7 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
                 t('transactionList.columns.total'),
                 t('transactionList.columns.description'),
                 t('transactionList.columns.createdAt'),
+                t('transactionList.columns.actions'),
               ]}
               style={tw`bg-gray-800`}
               textStyle={tw`text-white text-center py-1`}
@@ -68,6 +100,11 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
                   numberWithCommas(transaction.total),
                   transaction.description,
                   formatDate(transaction.createdAt, 'HH:mm DD/MM/YYYY'),
+                  <Text
+                    style={tw`text-white text-center underline`}
+                    onPress={() => removeTransaction(transaction.id)}>
+                    {t('transactionList.remove.label')}
+                  </Text>,
                 ])}
                 textStyle={tw`text-white text-center p-1`}
               />

@@ -1,4 +1,11 @@
 {
+  "common": {
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "remove": "Xóa",
+    "confirm": "Xác nhận",
+    "close": "Đóng"
+  },
   "home": {
     "title": "Ví của tui"
   },
@@ -36,7 +43,15 @@
       "moneyType": "Loại tiền",
       "total": "Số tiền",
       "description": "Mô tả",
-      "createdAt": "Thời gian"
+      "createdAt": "Thời gian",
+      "actions": "Hành động"
+    },
+    "remove": {
+      "label": "Xóa",
+      "confirmTitle": "Xác nhận xóa",
+      "confirmMessage": "Bạn có chắc chắn muốn xóa giao dịch này?",
+      "success": "Xóa thành công",
+      "failed": "Xóa thất bại"
     }
   }
 }

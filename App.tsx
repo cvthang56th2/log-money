@@ -8,12 +8,16 @@ import tw from '@lm/configs/tailwindcss';
 import '@lm/localization/i18n';
 import RootNavigator from '@lm/navigations/rootNavigators';
 import React from 'react';
-import {StatusBar} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
+
+// production: uncommend this
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(): React.JSX.Element {
   return (

@@ -507,7 +507,7 @@
 			baseConfigurationReference = D3EF435A53F19FDEDA7FA470 /* Pods-LogMoney-LogMoneyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = TN9JVAULHD;
+				DEVELOPMENT_TEAM = TQHJYDS43X;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -536,7 +536,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = TN9JVAULHD;
+				DEVELOPMENT_TEAM = TQHJYDS43X;
 				INFOPLIST_FILE = LogMoneyTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -563,10 +563,10 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TN9JVAULHD;
+				DEVELOPMENT_TEAM = TQHJYDS43X;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = LogMoney/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "GTA XTREME";
+				INFOPLIST_KEY_CFBundleDisplayName = "LOG MONEY";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -594,9 +594,9 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TN9JVAULHD;
+				DEVELOPMENT_TEAM = TQHJYDS43X;
 				INFOPLIST_FILE = LogMoney/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "GTA XTREME";
+				INFOPLIST_KEY_CFBundleDisplayName = "LOG MONEY";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
