@@ -80,7 +80,7 @@ class TransactionServices {
     }
   }
 
-  getTransactionsSnapshot(callback: (arg0: any[]) => void, {status}: any) {
+  getTransactionsSnapshot(callback: (arg0: any[]) => void, status?: string) {
     let q;
     if (status) {
       q = query(

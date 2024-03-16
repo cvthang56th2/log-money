@@ -27,5 +27,16 @@
     "formInvalid": "Dữ liệu không hợp lệ: {{message}}",
     "submitSuccess": "Nhập thành công",
     "submitFailed": "Nhập thất bại"
+  },
+  "transactionList": {
+    "title": "Danh sách giao dịch",
+    "noTransaction": "Không có giao dịch nào",
+    "columns": {
+      "inputType": "Vào/Ra",
+      "moneyType": "Loại tiền",
+      "total": "Số tiền",
+      "description": "Mô tả",
+      "createdAt": "Thời gian"
+    }
   }
 }

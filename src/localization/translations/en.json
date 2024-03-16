@@ -27,5 +27,16 @@
     "formInvalid": "Form Invalid: {{message}}",
     "submitSuccess": "Submit Success",
     "submitFailed": "Submit Failed"
+  },
+  "transactionList": {
+    "title": "Transaction List",
+    "noData": "No Data",
+    "columns": {
+      "inputType": "In/Out?",
+      "moneyType": "Money Type",
+      "total": "Total",
+      "description": "Description",
+      "createdAt": "Created At"
+    }
   }
 }
