@@ -1,5 +1,6 @@
 import {FC, useState} from 'react';
-import {Pressable, Text, TextInput, View} from 'react-native';
+import {Pressable, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Autocomplete from 'react-native-autocomplete-input';
 import RadioGroup from 'react-native-radio-buttons-group';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -17,6 +18,8 @@ const HomePage: FC<IHomePageProps> = () => {
     moneyType: 'cash',
     description: '',
   });
+  const [isFocusingDescription, setIsFocusingDescription] = useState(false);
+
   const radioButtons = [
     {
       id: 'in',
@@ -36,6 +39,28 @@ const HomePage: FC<IHomePageProps> = () => {
     {label: 'Bank', value: 'bank'},
     {label: 'MOMO', value: 'momo'},
   ];
+
+  const descriptionSuggestions = new Array(10).fill(0).map((_, index) => ({
+    id: String(index),
+    title: `Description ${index + 1}`,
+  }));
+
+  const filterData = (query: string) => {
+    if (!isFocusingDescription || query === '') {
+      return [];
+    }
+    const result = descriptionSuggestions.filter(item =>
+      item.title.toLowerCase().includes(query.toLowerCase()),
+    );
+    if (result.length === 1 && result[0].title === query) {
+      return [];
+    }
+    return result;
+  };
+
+  const submit = () => {
+    console.log(formData);
+  };
 
   return (
     <Screen>
@@ -103,18 +128,47 @@ const HomePage: FC<IHomePageProps> = () => {
             <Text style={tw`text-white font-semibold text-18px mb-2`}>
               {t('logMoneyForm.description.label')}
             </Text>
-            <TextInput
+            <Autocomplete
+              autoCapitalize="none"
+              autoCorrect={false}
+              containerStyle={tw`mb-4`}
+              data={filterData(formData.description)}
+              defaultValue={formData.description}
               onChangeText={val =>
                 setFormData(prev => ({...prev, description: val}))
               }
-              multiline
-              value={formData.description}
               placeholder={t('logMoneyForm.description.placeholder')}
-              style={tw`border-1 border-white rounded-md p-4 mt-1 text-20px text-white`}
+              flatListProps={{
+                keyboardShouldPersistTaps: 'always',
+                keyExtractor: item => item.id,
+                renderItem: ({item}) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      setFormData(prev => ({...prev, description: item.title}))
+                    }>
+                    <Text style={tw`p-2 border-b-gray-400`}>{item.title}</Text>
+                  </TouchableOpacity>
+                ),
+              }}
+              inputContainerStyle={tw`border-0`}
+              renderTextInput={() => (
+                <TextInput
+                  style={tw`border-1 border-white rounded-md p-4 mt-1 text-20px text-white`}
+                  placeholder={t('logMoneyForm.description.placeholder')}
+                  value={formData.description}
+                  onFocus={() => setIsFocusingDescription(true)}
+                  onBlur={() => setIsFocusingDescription(false)}
+                  onChangeText={val =>
+                    setFormData(prev => ({...prev, description: val}))
+                  }
+                />
+              )}
             />
           </View>
           <View style={tw`flex flex-row justify-center mt-12`}>
-            <Pressable style={tw`bg-white px-10 py-2 rounded-md`}>
+            <Pressable
+              style={tw`bg-white px-10 py-2 rounded-md`}
+              onPress={submit}>
               <Text style={tw`text-20px font-bold`}>
                 {t('logMoneyForm.submit')}
               </Text>

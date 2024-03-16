@@ -4,6 +4,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import tw from '@lm/configs/tailwindcss';
 import {ScrollViewProvider} from '@lm/contexts/ScrollViewContext';
+import AutoDisableScrollable from '../common/AutoDisableScrollable';
 
 type TProps = {
   children: ReactNode | string | JSX.Element | JSX.Element[];
@@ -23,9 +24,12 @@ export default function Screen(props: TProps) {
         paddingRight: insets.right,
       })}>
       <ScrollViewProvider scrollViewRef={scrollViewRef}>
-        <ScrollView style={tw`grow`} ref={scrollViewRef}>
+        <AutoDisableScrollable
+          style={tw`flex-1`}
+          __ref={scrollViewRef}
+          ScrollableComponent={ScrollView}>
           {props.children}
-        </ScrollView>
+        </AutoDisableScrollable>
       </ScrollViewProvider>
     </View>
   );
