@@ -59,7 +59,7 @@ const HomePage: FC<IHomePageProps> = () => {
           style={tw`mt-10 text-white text-center font-bold uppercase text-30px`}>
           {t('home.title')}
         </Text>
-        <View style={tw`px-10 mt-10`}>
+        <View style={tw`px-10 mt-6`}>
           <TransactionForm
             formData={formData}
             setFormData={setFormData}
