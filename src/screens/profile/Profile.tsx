@@ -1,33 +1,58 @@
 import {FC, useEffect, useState} from 'react';
-import {Alert, Text, View} from 'react-native';
+import {
+  Alert,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 import Screen from '@lm/components/Screen';
+import TransactionForm from '@lm/components/transaction/Form';
 import tw from '@lm/configs/tailwindcss';
 import TransactionServices from '@lm/firebase/transaction/transaction.services';
-import {Transaction} from '@lm/types/transaction';
+import {
+  Transaction,
+  TransactionForm as TransactionFormType,
+} from '@lm/types/transaction';
 import {formatDate, numberWithCommas} from '@lm/utils';
 import {useTranslation} from 'react-i18next';
-import {Row, Rows, Table} from 'react-native-table-component';
 import {showMessage} from 'react-native-flash-message';
+import Modal from 'react-native-modal';
+import {Row, Rows, Table} from 'react-native-table-component';
 
 interface IProfileProps {
   navigation: any;
 }
 
-const Profile: FC<IProfileProps> = ({navigation}) => {
+const Profile: FC<IProfileProps> = () => {
   const {t} = useTranslation();
-  const [transactions, setTransactions] = useState<Transaction[]>(
-    new Array(10).fill(0).map((_, index) => ({
-      id: index.toString(),
-      total: 1000,
-      inputType: 'in',
-      moneyType: 'cash',
-      description: 'Mua sắm',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    })),
-  );
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [editingTransaction, setEditingTransaction] =
+    useState<TransactionFormType>();
 
+  const showUpdateTransaction = (transaction: Transaction) => {
+    setEditingTransaction(transaction);
+  };
+  const updateTransaction = (formData: any) => {
+    delete formData.createdAt;
+    delete formData.updatedAt;
+
+    TransactionServices.updateTransaction(formData.id, formData)
+      .then(() => {
+        showMessage({
+          message: t('transactionList.update.success'),
+          type: 'success',
+        });
+        setEditingTransaction(undefined);
+      })
+      .catch(() => {
+        showMessage({
+          message: t('transactionList.update.failed'),
+          type: 'danger',
+        });
+      });
+  };
   const removeTransaction = (id: string) => {
     Alert.alert(
       t('transactionList.remove.confirmTitle'),
@@ -100,11 +125,18 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
                   numberWithCommas(transaction.total),
                   transaction.description,
                   formatDate(transaction.createdAt, 'HH:mm DD/MM/YYYY'),
-                  <Text
-                    style={tw`text-white text-center underline`}
-                    onPress={() => removeTransaction(transaction.id)}>
-                    {t('transactionList.remove.label')}
-                  </Text>,
+                  <View>
+                    <Text
+                      style={tw`text-white text-center underline`}
+                      onPress={() => showUpdateTransaction(transaction)}>
+                      {t('transactionList.update.label')}
+                    </Text>
+                    <Text
+                      style={tw`text-white text-center underline mt-2`}
+                      onPress={() => removeTransaction(transaction.id)}>
+                      {t('transactionList.remove.label')}
+                    </Text>
+                  </View>,
                 ])}
                 textStyle={tw`text-white text-center p-1`}
               />
@@ -117,6 +149,29 @@ const Profile: FC<IProfileProps> = ({navigation}) => {
           </Table>
         </View>
       </View>
+      <Modal isVisible={!!editingTransaction}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={tw`flex-1 justify-center items-center`}
+          onPressOut={() => {
+            setEditingTransaction(undefined);
+          }}>
+          <TouchableWithoutFeedback>
+            <View style={tw`bg-gray-900 rounded-xl px-4 py-6`}>
+              <Text
+                style={tw`text-20px font-bold text-center text-white mb-10`}>
+                {t('transactionList.updateModal.title')}
+              </Text>
+              <TransactionForm
+                formData={editingTransaction}
+                setFormData={setEditingTransaction as any}
+                onSubmit={updateTransaction}
+              />
+              {/* <Button title="Hide modal" onPress={toggleModal} /> */}
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
     </Screen>
   );
 };

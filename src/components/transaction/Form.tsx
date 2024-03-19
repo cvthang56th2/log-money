@@ -8,21 +8,23 @@ import {TransactionForm as TransactionFormType} from '@lm/types/transaction';
 import {useTranslation} from 'react-i18next';
 
 type TransactionFormProps = {
-  formData: TransactionFormType;
+  formData?: TransactionFormType;
   setFormData: Dispatch<SetStateAction<TransactionFormType>>;
   onSubmit: (formData: TransactionFormType) => void;
 };
 
 export const defaultFormData = {
+  id: '',
   total: 0,
   inputType: 'out',
   moneyType: 'cash',
   description: '',
+  spentAt: new Date(),
 };
 
 const TransactionForm: FC<TransactionFormProps> = ({
   onSubmit,
-  formData,
+  formData = defaultFormData,
   setFormData,
 }) => {
   const {t} = useTranslation();
@@ -114,25 +116,12 @@ const TransactionForm: FC<TransactionFormProps> = ({
           style={tw`border-1 border-white rounded-md px-4 py-2 mt-1 text-20px text-white`}
         />
       </View>
-      <View style={tw`mt-4`}>
-        <Text style={tw`text-white font-semibold text-18px mb-2`}>
-          {t('logMoneyForm.description.label')}
-        </Text>
-        <TextInput
-          onChangeText={val =>
-            setFormData(prev => ({...prev, description: val}))
-          }
-          value={formData.description}
-          placeholder={t('logMoneyForm.description.placeholder')}
-          style={tw`border-1 border-white rounded-md px-4 py-2 mt-1 text-20px text-white`}
-        />
-      </View>
       <View style={tw`flex flex-row justify-center mt-12`}>
         <Pressable
           style={tw`bg-white px-10 py-2 rounded-md`}
           onPress={() => onSubmit(formData)}>
           <Text style={tw`text-20px font-bold`}>
-            {t('logMoneyForm.submit')}
+            {formData.id ? t('logMoneyForm.update') : t('logMoneyForm.submit')}
           </Text>
         </Pressable>
       </View>

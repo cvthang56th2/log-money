@@ -20,36 +20,37 @@ const HomePage: FC<IHomePageProps> = () => {
   );
 
   const submit = async () => {
-    try {
-      // TODO: use form validation library
-      const {total, description} = formData;
-      if (total <= 0 || description === '') {
-        showMessage({
-          message: t('logMoneyForm.formInvalid', {
-            message: [
-              total <= 0 ? t('logMoneyForm.total.invalid') : '',
-              description === '' ? t('logMoneyForm.description.invalid') : '',
-            ]
-              .filter(Boolean)
-              .join(', '),
-          }),
-          type: 'danger',
-        });
-        return;
-      }
-      await TransactionServices.createTransaction(formData);
-      setFormData(JSON.parse(JSON.stringify(defaultFormData)));
+    // TODO: use form validation library
+    const {total, description} = formData;
+    if (total <= 0 || description === '') {
       showMessage({
-        message: t('logMoneyForm.submitSuccess'),
-        type: 'success',
-      });
-    } catch (error) {
-      console.log('error', error);
-      showMessage({
-        message: t('logMoneyForm.submitFailed'),
+        message: t('logMoneyForm.formInvalid', {
+          message: [
+            total <= 0 ? t('logMoneyForm.total.invalid') : '',
+            description === '' ? t('logMoneyForm.description.invalid') : '',
+          ]
+            .filter(Boolean)
+            .join(', '),
+        }),
         type: 'danger',
       });
+      return;
     }
+    TransactionServices.createTransaction(formData)
+      .then(() => {
+        showMessage({
+          message: t('logMoneyForm.submitSuccess'),
+          type: 'success',
+        });
+      })
+      .catch(() => {
+        showMessage({
+          message: t('logMoneyForm.submitFailed'),
+          type: 'danger',
+        });
+      });
+
+    setFormData(JSON.parse(JSON.stringify(defaultFormData)));
   };
 
   return (

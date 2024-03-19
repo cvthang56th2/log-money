@@ -30,7 +30,13 @@
       "placeholder": "Mô tả",
       "invalid": "Mô tả không hợp lệ"
     },
+    "spentAt": {
+      "label": "Thời gian",
+      "placeholder": "Thời gian",
+      "invalid": "Thời gian không hợp lệ"
+    },
     "submit": "Nhập",
+    "update": "Cập nhật",
     "formInvalid": "Dữ liệu không hợp lệ: {{message}}",
     "submitSuccess": "Nhập thành công",
     "submitFailed": "Nhập thất bại"
@@ -43,8 +49,18 @@
       "moneyType": "Loại tiền",
       "total": "Số tiền",
       "description": "Mô tả",
+      "spentAt": "Thời gian",
       "createdAt": "Thời gian",
       "actions": "Hành động"
+    },
+    "update": {
+      "label": "Sửa",
+      "success": "Sửa thành công",
+      "failed": "Sửa thất bại"
+    },
+    "updateModal": {
+      "title": "Sửa giao dịch",
+      "submit": "Sửa"
     },
     "remove": {
       "label": "Xóa",

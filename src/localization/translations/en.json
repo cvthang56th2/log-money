@@ -23,7 +23,13 @@
       "placeholder": "Description",
       "invalid": "Description is invalid"
     },
+    "spentAt": {
+      "label": "Time",
+      "placeholder": "Time",
+      "invalid": "Time is invalid"
+    },
     "submit": "Submit",
+    "update": "Update",
     "formInvalid": "Form Invalid: {{message}}",
     "submitSuccess": "Submit Success",
     "submitFailed": "Submit Failed"
@@ -36,7 +42,17 @@
       "moneyType": "Money Type",
       "total": "Total",
       "description": "Description",
+      "spentAt": "Spent At",
       "createdAt": "Created At"
+    },
+    "update": {
+      "label": "Update",
+      "success": "Update Success",
+      "failed": "Update Failed"
+    },
+    "updateModal": {
+      "title": "Update Transaction",
+      "submit": "Update"
     },
     "remove": {
       "label": "Remove",
